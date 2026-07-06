@@ -14,7 +14,7 @@
     <div id="app">
         <div class="nav-bar"></div>
         <div class="cart">Cart({{ cart }})</div>
-        <button class="button" @click="toggleInStock" style="float: right; margin-right: 10px;">Toggle Stock</button>
+        <!-- <button class="button" @click="toggleInStock" style="float: right; margin-right: 10px;">Toggle Stock</button> -->
         <div class="product-display">
             <div class="product-container">
                 <div class="product-image">
@@ -24,17 +24,17 @@
             </div>
         </div>
         <div class="product-info">
-            <h1><a :href="url">{{product}}</a></h1>
+            <h1><a :href="url">{{ title }}</a></h1>
             <p v-if="!inStock">Out of Stock</p>
             <p v-else-if="inventory > 10">In Stock</p>
             <p v-else-if="inventory <= 10 && inventory > 0">Almost out of Stock</p>
             <p v-else>Out of Stock</p>
-            <p v-if="onSale">On Sale!</p>
+            <p v-if="onSale">{{ saleMessage }}</p>
             <p v-else>Not on sale</p>
             <ul>
                 <li v-for="detail in details">{{ detail }}</li>
             </ul>
-            <div v-for="variant in variants" :key="variant.id" @mouseover="updateImage(variant.image)" class="color-circle" :style="{ backgroundColor: variant.color }">
+            <div v-for="(variant, index) in variants" :key="variant.id" @mouseover="updateVariant(index)" class="color-circle" :style="{ backgroundColor: variant.color }">
                 {{ variant.color }}
             </div>
             <div>

@@ -1,12 +1,11 @@
-const { createApp, ref } = Vue
+const { createApp, ref, computed } = Vue
 
 createApp({
   setup(){
     const product = ref('Boots')
-    const image = ref('./assets/images/socks_green.jpg')
+    const brand = ref('SE 331')
     const productDescription = ref('A pair of warm, fuzzy boots')
     const url = ref('https://www.camt.cmu.ac.th')
-    const inStock = ref(true)
     const inventory = ref(15)
     const onSale = ref(true)
 
@@ -17,9 +16,13 @@ createApp({
     ])
 
     const variants = ref([
-      { id: 2234, color: 'green', image:'./assets/images/socks_green.jpg' },
-      { id: 2235, color: 'blue', image:'./assets/images/socks_blue.jpg' }
+      { id: 2234, color: 'green', image:'./assets/images/socks_green.jpg', quantity : 50 },
+      { id: 2235, color: 'blue', image:'./assets/images/socks_blue.jpg', quantity : 0 }
     ])
+    const selectedVariant = ref(0)
+    function updateVariant(index){
+      selectedVariant.value = index;
+    }
 
     const sizes = ref(['S', 'M', 'L'])
     const cart = ref(0)
@@ -28,29 +31,45 @@ createApp({
       cart.value += 1
     }
 
-    function updateImage(variantImage){
-      image.value = variantImage
-    }
+    const title = computed(() => {
+      return brand.value + ' ' + product.value
+    })
 
-    function toggleInStock(){
-      inStock.value = !inStock.value
-    }
+    const saleMessage = computed(() => {
+      if (onSale.value) {
+        return brand.value + ' ' + product.value + ' is on sale'
+      }
+      return ''
+    })
+
+
+    // function toggleInStock(){
+    //   inStock.value = !inStock.value
+    // }
+
+    const image = computed(() => {
+      return variants.value[selectedVariant.value].image
+    })
+    const inStock = computed(() => {
+      return variants.value[selectedVariant.value].quantity
+    })
 
     return {
-      product,
+      title,
       image,
       productDescription,
       url,
       inStock,
       inventory,
       onSale,
+      saleMessage,
       details,
       variants,
       sizes,
       cart,
       addToCart,
-      updateImage,
-      toggleInStock
+      updateVariant,
+      // toggleInStock
     }
   }
 
