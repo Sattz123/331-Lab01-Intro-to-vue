@@ -1,13 +1,13 @@
-const { createApp, ref, computed, reactive } = Vue
+const { createApp, ref, computed, reactive, toRefs } = Vue
 
 const app = createApp({
   setup() {
     const cart = ref([])
     const premium = ref(true)
-    function updateCart(id){
+    function updateCart(id) {
       cart.value.push(id)
     }
-    function removeFromCart(id){
+    function removeFromCart(id) {
       const index = cart.value.indexOf(id)
       if (index !== -1) {
         cart.value.splice(index, 1)
