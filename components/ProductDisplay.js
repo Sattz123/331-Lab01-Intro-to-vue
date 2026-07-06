@@ -21,12 +21,12 @@ const productDisplay = {
             
             </div>
             <button class="button" :disabled="!inStock" @click="addToCart"
-            :class="{disabledButton: !inStock}">Add To
-            Cart</button>
+            :class="{disabledButton: !inStock}">Add To Cart</button>
             <button class="button" :disabled="!inStock" @click="removeFromCart"
-            :class="{disabledButton: !inStock}">Remove from
-            Cart</button>
+            :class="{disabledButton: !inStock}">Remove from Cart</button>
         </div>
+        <review-list v-if="reviews.length" :reviews="reviews"></review-list>
+        <review-form @review-submitted="addReview"></review-form>
     </div>
     `,
   props: {
@@ -71,6 +71,10 @@ const productDisplay = {
     function removeFromCart() {
       emit('remove-from-cart', variants.value[selectedVariant.value].id)
     }
+    const reviews = ref([])
+    function addReview(review) {
+      reviews.value.push(review)
+    }
     const title = computed(() => {
       return brand.value + ' ' + product.value
     })
@@ -88,7 +92,9 @@ const productDisplay = {
       removeFromCart,
       updateImage,
       updateVariant,
-      shipping
+      shipping,
+      reviews,
+      addReview
     }
   }
 }
