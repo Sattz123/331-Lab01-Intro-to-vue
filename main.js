@@ -1,76 +1,15 @@
 const { createApp, ref, computed } = Vue
 
-createApp({
-  setup(){
-    const product = ref('Boots')
-    const brand = ref('SE 331')
-    const productDescription = ref('A pair of warm, fuzzy boots')
-    const url = ref('https://www.camt.cmu.ac.th')
-    const inventory = ref(15)
-    const onSale = ref(true)
-
-    const details = ref([
-      '50% cotton',
-      '30% wool',
-      '20% polyester'
-    ])
-
-    const variants = ref([
-      { id: 2234, color: 'green', image:'./assets/images/socks_green.jpg', quantity : 50 },
-      { id: 2235, color: 'blue', image:'./assets/images/socks_blue.jpg', quantity : 0 }
-    ])
-    const selectedVariant = ref(0)
-    function updateVariant(index){
-      selectedVariant.value = index;
-    }
-
-    const sizes = ref(['S', 'M', 'L'])
+const app = createApp({
+  setup() {
     const cart = ref(0)
-
-    function addToCart(){
-      cart.value += 1
-    }
-
-    const title = computed(() => {
-      return brand.value + ' ' + product.value
-    })
-
-    const saleMessage = computed(() => {
-      if (onSale.value) {
-        return brand.value + ' ' + product.value + ' is on sale'
-      }
-      return ''
-    })
-
-
-    // function toggleInStock(){
-    //   inStock.value = !inStock.value
-    // }
-
-    const image = computed(() => {
-      return variants.value[selectedVariant.value].image
-    })
-    const inStock = computed(() => {
-      return variants.value[selectedVariant.value].quantity
-    })
-
+    const premium = ref(true)
     return {
-      title,
-      image,
-      productDescription,
-      url,
-      inStock,
-      inventory,
-      onSale,
-      saleMessage,
-      details,
-      variants,
-      sizes,
       cart,
-      addToCart,
-      updateVariant,
-      // toggleInStock
+      premium
     }
   }
+})
+app.component('product-display', productDisplay)
 
-}).mount('#app')
+app.mount('#app')
